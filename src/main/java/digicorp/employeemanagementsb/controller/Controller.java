@@ -3,23 +3,38 @@ package digicorp.employeemanagementsb.controller;
 import java.util.List;
 
 import digicorp.employeemanagementsb.dto.EmployeeRecordDTO;
+import digicorp.employeemanagementsb.model.Department;
+import digicorp.employeemanagementsb.repository.DepartmentRepo;
+import digicorp.employeemanagementsb.repository.EmployeeRepo;
 import digicorp.employeemanagementsb.services.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Sort;
 
 @RestController
-public class EmployeeController {
+public class Controller {
 
+    private final DepartmentRepo departmentRepo;
+    private final EmployeeRepo employeeRepo;
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public Controller(DepartmentRepo departmentRepo,
+                             EmployeeRepo employeeRepo,
+                             EmployeeService employeeService) {
+        this.departmentRepo = departmentRepo;
+        this.employeeRepo = employeeRepo;
         this.employeeService = employeeService;
     }
 
     @GetMapping("/department")
+    public List<Department> listDepartment() {
+        return departmentRepo.findAll(Sort.by(Sort.Direction.ASC, "deptNo"));
+    }
+
+    @GetMapping("/employees")
     public List<EmployeeRecordDTO> getEmployeesByDept(
             @RequestParam String deptNo,
             @RequestParam(defaultValue = "1") int page) {
