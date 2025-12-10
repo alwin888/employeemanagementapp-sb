@@ -1,21 +1,16 @@
 package digicorp.employeemanagementsb.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import digicorp.employeemanagementsb.dto.EmployeeRecordDTO;
+import digicorp.employeemanagementsb.dto.PromotionRequestDTO;
 import digicorp.employeemanagementsb.model.Department;
 import digicorp.employeemanagementsb.model.Employee;
 import digicorp.employeemanagementsb.repository.DepartmentRepo;
 import digicorp.employeemanagementsb.repository.EmployeeRepo;
 import digicorp.employeemanagementsb.services.EmployeeService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Sort;
 
@@ -84,4 +79,11 @@ public class Controller {
 
         return employeeService.findByDepartment(deptNo, page);
     }
+
+    @PostMapping("/employees/promote")
+    public Employee promote(@RequestBody PromotionRequestDTO requestDTO) {
+        // Delegate promotion logic to the service
+        return employeeService.promoteEmployee(requestDTO);
+    }
+
 }
