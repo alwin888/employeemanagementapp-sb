@@ -25,7 +25,7 @@ public class PromotionRequestDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fromDate;
     /** The new salary amount associated with the promotion. */
-    private int salary;
+    private int newSalary;
     /** The department number to which the employee will be reassigned, if applicable. */
     private String deptNo;
     /**
@@ -81,13 +81,13 @@ public class PromotionRequestDTO {
      *
      * @return the updated salary
      */
-    public int getNewSalary() { return salary; }
+    public int getNewSalary() { return newSalary; }
     /**
      * Sets the new salary value.
      *
-     * @param salary employee's salary
+     * @param newSalary employee's salary
      */
-    public void setSalary(int salary) { this.salary = salary; }
+    public void setSalary(int newSalary) { this.newSalary = newSalary; }
     /**
      * Returns the new department number, if the promotion involves a transfer.
      *

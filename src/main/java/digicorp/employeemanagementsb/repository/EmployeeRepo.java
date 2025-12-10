@@ -31,4 +31,5 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Integ
 
     Optional<Employee> findByEmpNo(int empNo);
 
+    void save(Employee employee);
 }
