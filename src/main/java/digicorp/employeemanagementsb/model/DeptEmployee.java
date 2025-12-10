@@ -5,6 +5,7 @@ package digicorp.employeemanagementsb.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import jakarta.persistence.*;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "dept_emp")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DeptEmployee {
 
     /**

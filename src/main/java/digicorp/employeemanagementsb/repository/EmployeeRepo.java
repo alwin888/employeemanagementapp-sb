@@ -10,8 +10,9 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
+import java.util.Optional;
 
-public interface EmployeeRepo extends PagingAndSortingRepository<DeptEmployee, Long> {
+public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Integer> {
 
     @Query("""
         SELECT new digicorp.employeemanagementsb.dto.EmployeeRecordDTO(
@@ -26,4 +27,8 @@ public interface EmployeeRepo extends PagingAndSortingRepository<DeptEmployee, L
             @Param("deptNo") String deptNo,
             Pageable pageable
     );
+
+
+    Optional<Employee> findByEmpNo(int empNo);
+
 }
