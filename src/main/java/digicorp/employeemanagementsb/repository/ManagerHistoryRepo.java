@@ -14,17 +14,10 @@ import java.util.Optional;
 public interface ManagerHistoryRepo extends JpaRepository<DeptManager, DeptManagerId> {
 
     @Query("""
-        SELECT s 
-        FROM DeptManager s 
-        WHERE s.employee.empNo = :empNo 
-        ORDER BY s.fromDate DESC
-    """)
-    List<DeptManager> findManagerByEmployee(@Param("empNo") int empNo);
-
-    @Query("""
         SELECT t
         FROM DeptManager t 
         WHERE t.employee.empNo = :empNo 
+            AND t.toDate = :maxDate
         AND t.toDate = :maxDate
     """)
     Optional<DeptManager> findLatestManager(

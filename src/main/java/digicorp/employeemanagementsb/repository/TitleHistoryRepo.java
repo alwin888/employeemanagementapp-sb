@@ -17,18 +17,12 @@ public interface TitleHistoryRepo extends JpaRepository<TitleHistory, TitleHisto
     SELECT t 
     FROM TitleHistory t
     WHERE t.employee.empNo = :empNo
+        AND t.toDate = :maxDate
     ORDER BY t.id.fromDate DESC
     """)
-    Optional<TitleHistory> findLatestTitle(@Param("empNo") int empNo);
-
-    @Query("""
-        SELECT t
-        FROM TitleHistory t 
-        WHERE t.employee.empNo = :empNo 
-        AND t.toDate = :maxDate
-    """)
-    List<TitleHistory> findCurrentTitles(
+    Optional<TitleHistory> findLatestTitle(
             @Param("empNo") int empNo,
             @Param("maxDate") LocalDate maxDate
-    );;
+    );
+
 }

@@ -16,17 +16,10 @@ public interface SalaryHistoryRepo extends JpaRepository<SalaryHistory, Integer>
         SELECT s 
         FROM SalaryHistory s 
         WHERE s.employee.empNo = :empNo 
+            AND s.toDate = :maxDate
         ORDER BY s.id.fromDate DESC
     """)
-    Optional<SalaryHistory> findLatestSalary(@Param("empNo") int empNo);
-
-    @Query("""
-    SELECT t 
-    FROM SalaryHistory t 
-    WHERE t.employee.empNo = :empNo 
-      AND t.toDate = :maxDate
-""")
-    List<SalaryHistory> findCurrentSalaryByEmployee(
+    Optional<SalaryHistory> findLatestSalary(
             @Param("empNo") int empNo,
             @Param("maxDate") LocalDate maxDate
     );

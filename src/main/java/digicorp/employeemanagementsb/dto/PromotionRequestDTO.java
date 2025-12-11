@@ -87,13 +87,13 @@ public class PromotionRequestDTO {
      *
      * @param newSalary employee's salary
      */
-    public void setSalary(int newSalary) { this.newSalary = newSalary; }
+    public void setNewSalary(int newSalary) { this.newSalary = newSalary; }
     /**
      * Returns the new department number, if the promotion involves a transfer.
      *
      * @return the updated department number
      */
-    public String getNewDeptNo() { return deptNo; }
+    public String getDeptNo() { return deptNo; }
     /**
      * Sets the new department number.
      *

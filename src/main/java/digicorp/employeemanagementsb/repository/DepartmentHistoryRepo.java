@@ -14,20 +14,13 @@ import java.util.Optional;
 public interface DepartmentHistoryRepo extends JpaRepository<DeptEmployee, DeptEmployeeId> {
 
     @Query("""
-        SELECT s 
-        FROM DeptEmployee s 
-        WHERE s.employee.empNo = :empNo 
-        ORDER BY s.fromDate DESC
-    """)
-    Optional<DeptEmployee> findLatestDepartment(@Param("empNo") int empNo);
-
-    @Query("""
         SELECT t
         FROM DeptEmployee t 
         WHERE t.employee.empNo = :empNo 
+            AND t.toDate = :maxDate
         AND t.toDate = :maxDate
     """)
-    List<DeptEmployee> findCurrentDepartments(
+    List<DeptEmployee> findLatestDepartments(
             @Param("empNo") int empNo,
             @Param("maxDate") LocalDate maxDate
     );;
