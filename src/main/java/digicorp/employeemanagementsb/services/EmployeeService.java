@@ -113,8 +113,38 @@ public class EmployeeService {
 
         // ===============================================================
         // BUSINESS DATE VALIDATION
-        // Employee must not overlap existing salary/title/department dates
+        // Includes:
+        // 1. Do NOT promote employees who already left the company
+        // 2. fromDate must not overlap existing salary/title/department dates
         // ===============================================================
+
+        // --- 1. Check if employee is still active (has ANY record with toDate = 9999-01-01) ---
+
+        boolean activeSalary = salaryHistoryRepo
+                .findLatestSalary(empNo, LocalDate.of(9999, 1, 1))
+                .stream()
+                .findFirst()
+                .isPresent();
+
+        boolean activeTitle = titleHistoryRepo
+                .findLatestTitle(empNo, LocalDate.of(9999, 1, 1))
+                .stream()
+                .findFirst()
+                .isPresent();
+
+        boolean activeDept = departmentHistoryRepo
+                .findLatestDepartments(empNo, LocalDate.of(9999, 1, 1))
+                .stream()
+                .findFirst()
+                .isPresent();
+
+        // Employee has left ONLY IF at least one of the 3 are inactive
+        if (!activeSalary || !activeTitle || !activeDept) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot promote employee. Employee has already left the company."
+            );
+        }
 
         // Latest salary
         LocalDate latestSalaryDate =
@@ -272,7 +302,6 @@ public class EmployeeService {
 
             managerHistoryRepo.save(newMgr);
         }
-
 
         return emp;
 
