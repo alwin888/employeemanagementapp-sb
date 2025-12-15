@@ -1,5 +1,5 @@
 /**
- * This package contains enities for the employee management
+ * This package contains entities for the employee management
  */
 package digicorp.employeemanagementsb.model;
 
@@ -10,10 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
-
-
 import java.util.List;
-
 
 /**
  * Department entity that represents the department table and it's relationship to others

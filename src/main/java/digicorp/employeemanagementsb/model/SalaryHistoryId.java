@@ -1,5 +1,5 @@
 /**
- * This package contains enities for the employee management
+ * This package contains entities for the employee management
  */
 package digicorp.employeemanagementsb.model;
 
@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -32,7 +29,6 @@ public class SalaryHistoryId implements Serializable {
      */
     @Column(name = "from_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private LocalDate fromDate;
 
     /**

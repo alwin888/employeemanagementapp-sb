@@ -12,8 +12,8 @@
  *
  * <h2>Included DTOs</h2>
  * <ul>
- *     <li>{@link digicorp.dto.EmployeeRecordDTO} – Simplified employee record returned to clients</li>
- *     <li>{@link digicorp.dto.PromotionRequestDTO} – Input payload for employee promotion requests</li>
+ *     <li>{@link digicorp.employeemanagementsb.dto.EmployeeRecordDTO} : Simplified employee record returned to clients</li>
+ *     <li>{@link digicorp.employeemanagementsb.dto.PromotionRequestDTO} : Input payload for employee promotion requests</li>
  * </ul>
  *
  * <p>

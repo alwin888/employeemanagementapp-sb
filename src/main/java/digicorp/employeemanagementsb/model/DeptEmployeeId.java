@@ -1,5 +1,5 @@
 /**
- * This package contains enities for the employee management
+ * This package contains entities for the employee management
  */
 package digicorp.employeemanagementsb.model;
 

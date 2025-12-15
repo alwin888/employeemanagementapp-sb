@@ -17,6 +17,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * Service class that encapsulates business logic related to {@link Employee}
+ * operations.
+ * <p>
+ * This service acts as an intermediary between controllers and repositories,
+ * ensuring that all validations, business rules, and transactional updates
+ * are applied consistently.
+ * </p>
+ *
+ * Responsibilities include:
+ * <ul>
+ *   <li>Retrieving employees by department with pagination</li>
+ *   <li>Validating and processing employee promotions</li>
+ *   <li>Maintaining historical consistency for salary, title, department,
+ *       and manager records</li>
+ * </ul>
+ */
 @Service
 public class EmployeeService {
 
@@ -38,12 +55,36 @@ public class EmployeeService {
     @Autowired
     ManagerHistoryRepo managerHistoryRepo;
 
+    /**
+     * Retrieves a paginated list of employees belonging to a specific department.
+     *
+     * @param deptNo the department number (e.g. {@code d001})
+     * @param page   the page number (1-based index)
+     * @return a list of {@link EmployeeRecordDTO} representing employees
+     *         in the given department
+     */
     public List<EmployeeRecordDTO> findByDepartment(String deptNo, int page) {
         int pageSize = 20;
         PageRequest pageable = PageRequest.of(page - 1, pageSize); // page is 0-indexed
         return employeeRepo.findByDepartment(deptNo, pageable);
     }
 
+    /**
+     * Promotes an employee by updating their salary, title, department,
+     * and optionally manager status.
+     * This method performs:
+     * <ol>
+     *   <li>Request body validation</li>
+     *   <li>Employee existence checks</li>
+     *   <li>Business date validation to prevent overlapping records</li>
+     *   <li>Historical updates by closing previous records</li>
+     *   <li>Creation of new salary, title, department, and manager entries</li>
+     * </ol>
+     *
+     * @param dto the promotion request data transfer object
+     * @return the promoted {@link Employee}
+     * @throws ResponseStatusException if validation or business rules fail
+     */
     public Employee promoteEmployee(PromotionRequestDTO dto) {
 
 

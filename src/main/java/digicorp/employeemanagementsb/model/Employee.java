@@ -1,11 +1,16 @@
 /**
- * This package contains enities for the employee management
+ * This package contains entities for the employee management
  */
 package digicorp.employeemanagementsb.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +34,6 @@ public class Employee {
      */
     @Column(name = "birth_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private LocalDate birthDate;
 
     /**
@@ -55,7 +59,6 @@ public class Employee {
      */
     @Column(name = "hire_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private LocalDate hireDate;
 
     /**

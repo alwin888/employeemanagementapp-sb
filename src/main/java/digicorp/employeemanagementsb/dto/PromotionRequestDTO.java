@@ -2,7 +2,6 @@ package digicorp.employeemanagementsb.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 
 /**
@@ -112,6 +111,4 @@ public class PromotionRequestDTO {
      * @param manager {@code true} for managerial status; {@code false} otherwise
      */
     public void setManager(boolean manager) { this.manager = manager; }
-
-
 }
