@@ -37,23 +37,39 @@ import java.util.stream.Stream;
 @Service
 public class EmployeeService {
 
-    @Autowired
     private EmployeeRepo employeeRepo;
-
-    @Autowired
     private DepartmentRepo departmentRepo;
-
-    @Autowired
     private SalaryHistoryRepo salaryHistoryRepo;
-
-    @Autowired
     private TitleHistoryRepo titleHistoryRepo;
-
-    @Autowired
     private DepartmentHistoryRepo departmentHistoryRepo;
-
-    @Autowired
     ManagerHistoryRepo managerHistoryRepo;
+
+    /**
+     * Constructs an {@code EmployeeService} with all required repository dependencies.
+     * <p>
+     * This constructor uses Spring's dependency injection mechanism to automatically
+     * inject the repository beans needed for managing employees and their related
+     * historical records such as departments, salaries, titles, and managers.
+     * </p>
+     *
+     * @param employeeRepo the repository used for performing CRUD operations on employee entities
+     * @param departmentRepo the repository used for accessing department entities
+     * @param salaryHistoryRepo the repository used for managing employee salary history records
+     * @param titleHistoryRepo the repository used for managing employee title history records
+     * @param departmentHistoryRepo the repository used for managing employee department history records
+     * @param managerHistoryRepo the repository used for managing employee manager history records
+     */
+    @Autowired
+    public EmployeeService(EmployeeRepo employeeRepo, DepartmentRepo departmentRepo,
+                           SalaryHistoryRepo salaryHistoryRepo, TitleHistoryRepo titleHistoryRepo,
+                           DepartmentHistoryRepo departmentHistoryRepo, ManagerHistoryRepo managerHistoryRepo) {
+        this.employeeRepo = employeeRepo;
+        this.departmentRepo = departmentRepo;
+        this.departmentHistoryRepo = departmentHistoryRepo;
+        this.salaryHistoryRepo = salaryHistoryRepo;
+        this.titleHistoryRepo = titleHistoryRepo;
+        this.managerHistoryRepo = managerHistoryRepo;
+    }
 
     /**
      * Retrieves a paginated list of employees belonging to a specific department.
@@ -80,6 +96,16 @@ public class EmployeeService {
      *   <li>Historical updates by closing previous records</li>
      *   <li>Creation of new salary, title, department, and manager entries</li>
      * </ol>
+     *
+     * Json example:
+     * {
+     *     "empNo": 10012,
+     *     "newTitle": "Random Manager 1",
+     *     "fromDate": "2015-11-18",
+     *     "salary" : 10000,
+     *     "deptNo" : "d008",
+     *     "manager" : true
+     * }
      *
      * @param dto the promotion request data transfer object
      * @return the promoted {@link Employee}
