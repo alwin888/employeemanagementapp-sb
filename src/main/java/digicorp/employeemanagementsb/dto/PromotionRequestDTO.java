@@ -10,6 +10,17 @@ import java.time.LocalDate;
  * This DTO is typically used for incoming JSON payloads that specify
  * updated job details such as new title, salary, department, and whether
  * the employee should be assigned a managerial role.
+ *
+ * Expected Json input:
+ * {
+ *     "empNo": 10012,
+ *     "newTitle": "Random Manager 1",
+ *     "fromDate": "2015-11-18",
+ *     "salary" : 10000,
+ *     "deptNo" : "d008",
+ *     "manager" : true
+ * }
+ *
  */
 public class PromotionRequestDTO {
     /** The unique employee number identifying the employee to be promoted. */
