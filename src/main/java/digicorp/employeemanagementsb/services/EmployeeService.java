@@ -6,6 +6,7 @@ import digicorp.employeemanagementsb.repository.*;
 import digicorp.employeemanagementsb.dto.PromotionRequestDTO;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -35,14 +36,15 @@ import java.util.stream.Stream;
  * </ul>
  */
 @Service
+@Transactional
 public class EmployeeService {
 
-    private EmployeeRepo employeeRepo;
-    private DepartmentRepo departmentRepo;
-    private SalaryHistoryRepo salaryHistoryRepo;
-    private TitleHistoryRepo titleHistoryRepo;
-    private DepartmentHistoryRepo departmentHistoryRepo;
-    ManagerHistoryRepo managerHistoryRepo;
+    private final EmployeeRepo employeeRepo;
+    private final DepartmentRepo departmentRepo;
+    private final SalaryHistoryRepo salaryHistoryRepo;
+    private final TitleHistoryRepo titleHistoryRepo;
+    private final DepartmentHistoryRepo departmentHistoryRepo;
+    private final ManagerHistoryRepo managerHistoryRepo;
 
     /**
      * Constructs an {@code EmployeeService} with all required repository dependencies.
@@ -102,7 +104,7 @@ public class EmployeeService {
      *     "empNo": 10012,
      *     "newTitle": "Random Manager 1",
      *     "fromDate": "2015-11-18",
-     *     "salary" : 10000,
+     *     "newSalary" : 10000,
      *     "deptNo" : "d008",
      *     "manager" : true
      * }
@@ -328,36 +330,37 @@ public class EmployeeService {
 
         departmentHistoryRepo.save(newDept);
 
-
         // --- 4d. MANAGER (optional) ---
-        if (dto.isManager()) {
 
-            // Fetch latest manager record if exists
-            Optional<DeptManager> latestMgrOpt =
-                    managerHistoryRepo.findLatestManager(empNo, LocalDate.of(9999, 1, 1))
-                            .stream()
-                            .findFirst();
 
-            boolean shouldClosePreviousManager = false;
+        // Fetch latest manager record if exists
+        Optional<DeptManager> latestMgrOpt =
+                managerHistoryRepo.findLatestManager(empNo, LocalDate.of(9999, 1, 1))
+                        .stream()
+                        .findFirst();
 
-            if (latestMgrOpt.isPresent()) {
-                DeptManager lastMgr = latestMgrOpt.get();
-                String oldMgrDeptNo = lastMgr.getId().getDeptNo();
+        boolean departmentChanged = false;
 
-                // Close only if department changed
-                shouldClosePreviousManager = !deptNoNormalized.equalsIgnoreCase(oldMgrDeptNo);
+        if (latestMgrOpt.isPresent()) {
+            DeptManager lastMgr = latestMgrOpt.get();
+            String oldMgrDeptNo = lastMgr.getId().getDeptNo();
 
-                if (shouldClosePreviousManager) {
-                    lastMgr.setToDate(newFromDate.minusDays(1));
-                    managerHistoryRepo.save(lastMgr);
-                }
-            } else {
-                // No previous manager -> nothing to close
-                shouldClosePreviousManager = true;
+            // Close only if department changed
+            departmentChanged = !deptNoNormalized.equalsIgnoreCase(oldMgrDeptNo);
+
+            if (departmentChanged) {
+                lastMgr.setToDate(newFromDate.minusDays(1));
+                managerHistoryRepo.save(lastMgr);
             }
+        } else {
+            // No previous manager -> nothing to close
+            departmentChanged = false;
+        }
 
+        if (dto.isManager()) {
             // Now create the new manager record if needed
             // (Even if dept didn't change, we create a new record because it's a promotion event)
+
             DeptManagerId managerId = new DeptManagerId(empNo, deptNoNormalized);
 
             DeptManager newMgr = new DeptManager();

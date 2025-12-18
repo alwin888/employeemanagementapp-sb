@@ -102,7 +102,7 @@ This guide describes the four main REST endpoints in the DigiCorp HR Management 
       "empNo": 10004,
       "newTitle": "Manager",
       "fromDate": "2025-12-11",
-      "salary": 1000278,
+      "newSalary": 1000278,
       "deptNo": "d001",
       "manager": true
     }

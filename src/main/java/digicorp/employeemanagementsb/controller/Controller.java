@@ -140,13 +140,27 @@ public class Controller {
      * is handled by the service layer.
      * </p>
      *
+     * Expected Json input:
+     * {
+     *     "empNo": 10012,
+     *     "newTitle": "Random Manager 1",
+     *     "fromDate": "2015-11-18",
+     *     "newSalary" : 10000,
+     *     "deptNo" : "d008",
+     *     "manager" : true
+     * }
+     *
      * @param requestDTO the promotion request payload
      * @return the updated {@link Employee} after promotion
      */
     @PostMapping("/employees/promote")
-    public Employee promote(@RequestBody PromotionRequestDTO requestDTO) {
+    public String promote(@RequestBody PromotionRequestDTO requestDTO) {
         // Delegate promotion logic to the service
-        return employeeService.promoteEmployee(requestDTO);
+        if (employeeService.promoteEmployee(requestDTO) != null){
+            return "promotion successful";
+        }else{
+        return "promotion failed";
     }
 
+}
 }

@@ -16,7 +16,7 @@ import java.time.LocalDate;
  *     "empNo": 10012,
  *     "newTitle": "Random Manager 1",
  *     "fromDate": "2015-11-18",
- *     "salary" : 10000,
+ *     "newSalary" : 10000,
  *     "deptNo" : "d008",
  *     "manager" : true
  * }
